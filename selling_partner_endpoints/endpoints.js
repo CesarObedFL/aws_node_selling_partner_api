@@ -76,3 +76,24 @@ routes.get('/spapi/orders', (request, response) => {
         }
     })();
 });
+
+
+// get order by order_id
+routes.get('/spapi/order/:id', (request, response) => {
+    const {id} = request.params;
+    (async() => {
+        try {
+            let res = await selling_partner_api.callAPI({
+                api_path:'/orders/v0/orders/'+[id],
+                method:'GET',
+                query:{
+                    marketplaceIds: marketplaceIds,
+                    version:'beta'
+                }
+            });
+            response.json(res);
+        } catch(e) {
+            response.json(e);
+        }
+    })();
+});
