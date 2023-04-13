@@ -117,3 +117,45 @@ routes.get('/spapi/order/:id/items', (request, response) => {
         }
     })();
 });
+
+// endpoint to get the inventory
+routes.get('/spapi/inventory', (request, response) => {
+    (async() => {
+        try {
+            let inventory = [];
+            let res = await selling_partner_api.callAPI({
+                api_path:'/fba/inventory/v1/summaries',
+                method:'GET',
+                query:{
+                    details: true,
+                    granularityType: ['Marketplace'],
+                    granularityId: 'A1AM78C64UM0Y8',
+                    marketplaceIds: marketplaceIds,
+                    version:'beta'
+                }
+            });
+            inventory.push(res.inventorySummaries);
+            while(res.nextToken) {
+                let nexttoken = res.nextToken;
+                console.log("NextToken: " + res.nextToken);
+                res = await selling_partner_dreamlab.callAPI({
+                    api_path:'/fba/inventory/v1/summaries',
+                    method:'GET',
+                    query:{
+                        details: true,
+                        granularityType: ['Marketplace'],
+                        granularityId: 'A1AM78C64UM0Y8',
+                        marketplaceIds: marketplaceIds,
+                        nextToken: nexttoken,
+                        version:'beta'
+                    }
+                });
+                inventory.push(res.inventorySummaries);
+            }
+            response.json({ Inventory : inventory });
+        } catch(e) {
+            console.log(e);
+            response.json(e);
+        }
+    })();
+});
