@@ -159,3 +159,24 @@ routes.get('/spapi/inventory', (request, response) => {
         }
     })();
 });
+
+// get the product saleranks by asin
+routes.get('/spapi/ranking/:asin', (request, response) => {
+    const {asin} = request.params;
+    (async() => {
+        try {
+            let res = await selling_partner_api.callAPI({
+                api_path:'/catalog/2020-12-01/items/'+[asin],
+                method:'GET',
+                query:{
+                    marketplaceIds: marketplaceIds,
+                    includedData: ['summaries', 'salesRanks'],
+                    version:'beta'
+                }
+            });
+            response.json(res);
+        } catch(e) {
+            response.json(e);
+        }
+    })();
+});
