@@ -180,3 +180,23 @@ routes.get('/spapi/ranking/:asin', (request, response) => {
         }
     })();
 });
+
+// endpoint to get finances of the orders by order id
+routes.get('/spapi/finances/order/:order_id', (request, response) => {
+    const {order_id} = request.params;
+    (async() => {
+        try {
+            let res = await selling_partner_api.callAPI({
+                api_path:'/finances/v0/orders/'+[order_id]+'/financialEvents',
+                method:'GET',
+                query:{
+                    marketplaceIds: marketplaceIds,
+                    version:'beta'
+                }
+            });
+            response.json(res.FinancialEvents.ShipmentEventList);
+        } catch(e) {
+            response.json(e);
+        }
+    })();
+});
