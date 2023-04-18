@@ -200,3 +200,23 @@ routes.get('/spapi/finances/order/:order_id', (request, response) => {
         }
     })();
 });
+
+// get the movements of the refounds by order id, endpoint
+routes.get('/spapi/refunds/:order_id', (request, response) => {
+    const {order_id} = request.params;
+    (async() => {
+        try{
+            let res = await selling_partner_api.callAPI({
+                api_path: '/finances/v0/orders/'+[order_id]+'/financialEvents',
+                method:'GET',
+                query:{
+                    MarketplaceId:['A1AM78C64UM0Y8'],
+                    version:'beta'
+                }
+            });
+            response.json(res.FinancialEvents.RefundEventList);
+        } catch(e) {
+            response.json(e);
+        }
+    })();
+});
