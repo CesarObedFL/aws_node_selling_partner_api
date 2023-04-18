@@ -210,7 +210,7 @@ routes.get('/spapi/refunds/:order_id', (request, response) => {
                 api_path: '/finances/v0/orders/'+[order_id]+'/financialEvents',
                 method:'GET',
                 query:{
-                    MarketplaceId:['A1AM78C64UM0Y8'],
+                    MarketplaceId: marketplaceIds,
                     version:'beta'
                 }
             });
