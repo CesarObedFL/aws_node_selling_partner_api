@@ -220,3 +220,27 @@ routes.get('/spapi/refunds/:order_id', (request, response) => {
         }
     })();
 });
+
+// get the sale metrics by date interval endpoint
+routes.get('/spapi/sales/metrics', (request, response) => {
+    let date_from = request.query.date_from;
+    let date_to = request.query.date_to;
+    let interval = date_from.split('T')[0]+'T00:00:00-06:00--'+date_to.split('T')[0]+'T23:59:59-06:00';
+    console.log('interval: '+interval);
+    (async() => {
+        try {
+            let res = await selling_partner_api.callAPI({
+                operation: 'getOrderMetrics',
+                endpoint: 'sales',
+                query:{
+                    marketplaceIds: marketplaceIds,
+                    interval: interval,
+                    granularity: 'Day'
+                }
+            });
+            response.json(res);
+        } catch(e) {
+            response.json(e);
+        }
+    })();
+});
