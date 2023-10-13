@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 
-const { endpoints_routes } = require('./selling_partner_endpoints/endpoints');
+const { routes } = require('./selling_partner_endpoints/endpoints');
 
 const path = require('path');
 
@@ -24,7 +24,7 @@ app.get('/', (request, response) => {
     response.send("selling-partner api");
 });
 
-app.use(endpoints_routes);
+app.use(routes);
 
 
 app.listen(app.get('port'), () => {

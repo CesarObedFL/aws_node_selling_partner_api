@@ -2,14 +2,14 @@ require('dotenv').config();
 const express = require('express');
 
 const SellingPartnerAPI = require('amazon-sp-api');
-const routes = express();
+const routes = express.Router();
 
 const marketplaceIds = [];
 
 let selling_partner_api = new SellingPartnerAPI({
-    region:'',
-    refresh_token: '',
-    access_token: '',
+    region:process.env.APP_REGION,
+    refresh_token: process.env.APP_CLIENT_REFRESH_TOCKEN,
+    access_token: process.env.APP_CLIENT_ACCESS_TOCKEN,
     role_credentials:{
         id: process.env.ROLE_ID,
         secret: process.env.ROLE_SECRET,
@@ -244,3 +244,6 @@ routes.get('/spapi/sales/metrics', (request, response) => {
         }
     })();
 });
+
+
+module.exports = { routes }
