@@ -35,7 +35,7 @@ npm install
 
 Following the [official-documentation]!!!...
 
-_You can get the followinf data on the Amazon [seller-central-portal]!..._
+_You can get the following data on the Amazon [seller-central-portal]!..._
 you need to be registered as a developer there, that process could take about two weeks...
 
 | data | description |
