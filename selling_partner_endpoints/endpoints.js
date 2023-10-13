@@ -8,8 +8,8 @@ const marketplaceIds = [];
 
 let selling_partner_api = new SellingPartnerAPI({
     region:process.env.APP_REGION,
-    refresh_token: process.env.APP_CLIENT_REFRESH_TOCKEN,
-    access_token: process.env.APP_CLIENT_ACCESS_TOCKEN,
+    refresh_token: process.env.APP_CLIENT_REFRESH_TOKEN,
+    access_token: process.env.APP_CLIENT_ACCESS_TOKEN,
     role_credentials:{
         id: process.env.ROLE_ID,
         secret: process.env.ROLE_SECRET,
