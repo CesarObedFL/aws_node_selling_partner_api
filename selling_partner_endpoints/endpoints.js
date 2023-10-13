@@ -4,7 +4,8 @@ const express = require('express');
 const SellingPartnerAPI = require('amazon-sp-api');
 const routes = express.Router();
 
-const marketplaceIds = [];
+// you should put your amazon marketplace ids in this array
+const marketplaceIds = []; 
 
 let selling_partner_api = new SellingPartnerAPI({
     region:process.env.APP_REGION,
