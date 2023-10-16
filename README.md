@@ -13,7 +13,7 @@ Consult the  [spapi-reference]
 - Through the SDK manages the client and the corresponding credentials for the connection to amazon
 - Use [express] as http client
 - You can use in production [PM2] as process daemon to linux servers
-
+- You can dockerizing it with the docker file using the official [PM2-image] in the latest-alpine version
 
 ## _Dependencies_
 
@@ -24,6 +24,8 @@ Consult the  [spapi-reference]
 
 - npm ^8.3.1
 - node ^16.13.2
+- [PM2]
+- [Docker] ^20.10.17  _optional_
 
 ## _Installation_
 
@@ -31,7 +33,27 @@ Consult the  [spapi-reference]
 npm install 
 ```
 
-# _.env file explanation_
+## _Dockerizing_
+
+
+
+## _Running the app_
+
+_development mode:_ `npm run serve`
+
+_production mode:_ you have to use [PM2] or a similar daemon package to run on background the app and use it
+```
+pm2 start index.js
+```
+
+_with docker:_
+
+```
+docker build -t your-app-name .
+docker run -p 3000:3000 your-app-name
+```
+
+### _.env file explanation_
 
 Following the [official-documentation]!!!...
 
@@ -74,14 +96,6 @@ The following is data extracted from the AssumeRole of AWS:
 This data is essential to establish a secure and authorized connection to the Amazon Seller Partner API when assuming a temporary role. The process involves authentication and authorization using the ROLE_ID, ROLE_SECRET, and ROLE_SECURITY_TOKEN, allowing your application or system to interact with the API on behalf of the configured temporary role
 
 
-## _Running the app_
-
-development mode: `npm run serve`
-
-production mode: you have to use [PM2] or a similar daemon package to run on background the app and use it
-```
-pm2 start index.js
-```
 
 
 [amazon-sp-api]: <https://developer-docs.amazon.com/sp-api/docs/what-is-the-selling-partner-api>
@@ -92,3 +106,5 @@ pm2 start index.js
 [spapi-reference]: <https://github.com/amzn/selling-partner-api-docs/tree/main/references>
 [express]: <https://expressjs.com/es/>
 [PM2]: <https://pm2.keymetrics.io/>
+[PM2-image]: <https://hub.docker.com/r/keymetrics/pm2>
+[Docker]: <https://docs.docker.com/>
