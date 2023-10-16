@@ -35,7 +35,9 @@ npm install
 
 ## _Dockerizing_
 
-
+```
+docker build -t your-app-name .
+```
 
 ## _Running the app_
 
