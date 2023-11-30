@@ -135,7 +135,7 @@ routes.get('/spapi/order/:id/items', (request, response) => {
 });
 
 /**
- * endpoint to get the order's buyer information by order_id
+ * endpoint to get the order's buyer information by order_id  (doesn't work cause amazon)
  * 
  * @param Integer order id
  * @return Json object with the obtained order's buyer information or the sp-api error message
@@ -146,11 +146,28 @@ routes.get('/spapi/order/buyerinfo/:order_id', (request, response) => {
         try {
             let res = await selling_partner_api.callAPI({
                 api_path: ' /orders/v0/orders/'+[order_id]+'/buyerInfo',
-                method:'GET',
-                query:{
-                    marketplaceIds: marketplaceIds,
-                    version:'beta'
-                }
+                method:'GET'
+            });
+            response.json(res);
+        } catch(e) {
+            response.json(e);
+        }
+    })();
+});
+
+/**
+ * endpoint to get the order's buyer address information by order_id (doesn't work cause amazon)
+ * 
+ * @param Integer order id
+ * @return Json object with the obtained order's buyer address information or the sp-api error message
+ */
+routes.get('/spapi/order/shippingaddress/:order_id', (request, response) => {
+    const {order_id} = request.params;
+    (async() => {
+        try {
+            let res = await selling_partner_api.callAPI({
+                api_path: ' /orders/v0/orders/'+[order_id]+'/address',
+                method:'GET'
             });
             response.json(res);
         } catch(e) {
