@@ -5,7 +5,7 @@ const SellingPartnerAPI = require('amazon-sp-api');
 const routes = express.Router();
 
 // you should put your amazon marketplace ids in this array
-const marketplaceIds = []; 
+const marketplaceIds = [process.env.MARKETPLACE_ID]; 
 
 let selling_partner_api = new SellingPartnerAPI({
     region: process.env.APP_REGION,
@@ -47,7 +47,7 @@ let selling_partner_api = new SellingPartnerAPI({
 routes.get('/spapi/orders', (request, response) => {
     let date_from = request.query.date_from;
     let date_to = request.query.date_to;
-    //console.log(date_from, date_to);
+    console.log('orders endpoint: ', date_from, date_to);
     var orders = [];
     (async() => {
         try {
@@ -92,6 +92,7 @@ routes.get('/spapi/orders', (request, response) => {
  */
 routes.get('/spapi/order/:id', (request, response) => {
     const {id} = request.params;
+    console.log('order detail endpoint: ', [id]);
     (async() => {
         try {
             let res = await selling_partner_api.callAPI({
@@ -117,6 +118,7 @@ routes.get('/spapi/order/:id', (request, response) => {
  */
 routes.get('/spapi/order/:id/items', (request, response) => {
     const {id} = request.params;
+    console.log('order items endpoint: ', [id]);
     (async() => {
         try {
             let res = await selling_partner_api.callAPI({
@@ -142,6 +144,7 @@ routes.get('/spapi/order/:id/items', (request, response) => {
  */
 routes.get('/spapi/order/buyerinfo/:order_id', (request, response) => {
     const {order_id} = request.params;
+    console.log('buyerinfo endpoint: ', [order_id]);
     (async() => {
         try {
             let res = await selling_partner_api.callAPI({
@@ -163,6 +166,7 @@ routes.get('/spapi/order/buyerinfo/:order_id', (request, response) => {
  */
 routes.get('/spapi/order/shippingaddress/:order_id', (request, response) => {
     const {order_id} = request.params;
+    console.log('shippingaddress endpoint: ', [order_id]);
     (async() => {
         try {
             let res = await selling_partner_api.callAPI({
@@ -182,6 +186,7 @@ routes.get('/spapi/order/shippingaddress/:order_id', (request, response) => {
  * @return Json object with the items of the store loaded in amazon with a high detailed data or the sp-api error message
  */
 routes.get('/spapi/inventory', (request, response) => {
+    console.log('inventory endpoint');
     (async() => {
         try {
             let inventory = [];
@@ -199,8 +204,8 @@ routes.get('/spapi/inventory', (request, response) => {
             inventory.push(res.inventorySummaries);
             while(res.nextToken) {
                 let nexttoken = res.nextToken;
-                console.log("NextToken: " + res.nextToken);
-                res = await selling_partner_dreamlab.callAPI({
+                //console.log("NextToken: " + res.nextToken);
+                res = await selling_partner_api.callAPI({
                     api_path:'/fba/inventory/v1/summaries',
                     method:'GET',
                     query:{
@@ -216,7 +221,7 @@ routes.get('/spapi/inventory', (request, response) => {
             }
             response.json({ Inventory : inventory });
         } catch(e) {
-            console.log(e);
+            //console.log(e);
             response.json(e);
         }
     })();
@@ -230,6 +235,7 @@ routes.get('/spapi/inventory', (request, response) => {
  */
 routes.get('/spapi/ranking/:asin', (request, response) => {
     const {asin} = request.params;
+    console.log('ranking endpoint: ', [asin]);
     (async() => {
         try {
             let res = await selling_partner_api.callAPI({
@@ -256,6 +262,7 @@ routes.get('/spapi/ranking/:asin', (request, response) => {
  */
 routes.get('/spapi/finances/order/:order_id', (request, response) => {
     const {order_id} = request.params;
+    console.log('order finances endpoint: ', [order_id]);
     (async() => {
         try {
             let res = await selling_partner_api.callAPI({
@@ -281,6 +288,7 @@ routes.get('/spapi/finances/order/:order_id', (request, response) => {
  */
 routes.get('/spapi/refunds/:order_id', (request, response) => {
     const {order_id} = request.params;
+    console.log('order refund endpoint: ', [order_id]);
     (async() => {
         try{
             let res = await selling_partner_api.callAPI({
@@ -309,7 +317,7 @@ routes.get('/spapi/sales/metrics', (request, response) => {
     let date_from = request.query.date_from;
     let date_to = request.query.date_to;
     let interval = date_from.split('T')[0]+'T00:00:00-06:00--'+date_to.split('T')[0]+'T23:59:59-06:00';
-    console.log('interval: '+interval);
+    console.log('sales metrics endpoint: ', ' interval: '+interval);
     (async() => {
         try {
             let res = await selling_partner_api.callAPI({
