@@ -18,7 +18,7 @@ Consult the  [spapi-reference]
 ## _Dependencies_
 
 - [amazon-sp-api]  "^0.7.9", npm : [npm-amazon-sp-api]
-- [express]  "^4.18.1"
+- [express]  "^4.19.2"
 
 ## _Requirements_
 
@@ -52,6 +52,12 @@ _with docker:_
 
 ```
 docker run -p 3000:3000 your-app-name
+```
+
+_docker terminal:_
+
+```
+docker run -it your-app-name sh
 ```
 
 ### _.env file explanation_
