@@ -102,7 +102,9 @@ The following is data extracted from the AssumeRole of AWS:
 
 This data is essential to establish a secure and authorized connection to the Amazon Seller Partner API when assuming a temporary role. The process involves authentication and authorization using the ROLE_ID, ROLE_SECRET, and ROLE_SECURITY_TOKEN, allowing your application or system to interact with the API on behalf of the configured temporary role
 
+### Amazon SP-API conventions
 
+- Amazon SP-API is extremely strict with the format of the Dates: it expects a complete ISO 8601 format (e.g. 2026-07-01T14:21:00Z)
 
 
 [amazon-sp-api]: <https://developer-docs.amazon.com/sp-api/docs/what-is-the-selling-partner-api>
