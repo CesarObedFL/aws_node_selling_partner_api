@@ -1,4 +1,11 @@
-# aws node selling partner api
+
+# AWS Node Selling Partner API - MCP Server
+
+> **High-performance MCP server for Amazon SP-API**  
+> Enables agents to query real-time inventory health and execute dynamic price adjustments directly via JSON‑RPC.
+
+![Amazon SP-API MCP Server Logo](./assets/images/MCP-AWS-SP.png)
+
 
 This api let you connect to the Amazon SP API using their SDK...
 
