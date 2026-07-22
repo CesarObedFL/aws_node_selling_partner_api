@@ -2,9 +2,9 @@
   "name": "aws-node-spapi",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "serve": "nodemon index.js"
+    "serve": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
