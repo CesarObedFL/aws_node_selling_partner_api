@@ -105,5 +105,24 @@ export const amazonService = {
             query,
         });
     },
+
+    /**
+     * Get catalog item (product details and rankings) by ASIN.
+     * @param {string} asin - Amazon Standard Identification Number
+     * @param {string[]} [marketplaceIds] - Optional array of marketplace IDs
+     * @returns {Promise<Object>}
+     */
+    async getCatalogItem({ asin, marketplaceIds }) {
+        const client = get_amazon_client();
+        const query = {
+            marketplaceIds: marketplaceIds || [env.DEFAULT_MARKETPLACE_ID],
+        };
+        return client.callAPI({
+            operation: 'getCatalogItem',
+            endpoint: 'catalog',
+            path: { asin },
+            query,
+        });
+    },
 };
 
