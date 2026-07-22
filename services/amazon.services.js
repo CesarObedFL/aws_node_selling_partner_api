@@ -124,5 +124,21 @@ export const amazonService = {
             query,
         });
     },
+
+    /**
+     * Get financial events for an order.
+     * @param {string} orderId
+     * @returns {Promise<Object>}
+     */
+    async getFinancialEvents(orderId) {
+        const client = get_amazon_client();
+        return client.callAPI({
+            operation: 'listFinancialEvents',
+            endpoint: 'finances',
+            query: {
+                orderId,
+            },
+        });
+    },
 };
 
