@@ -140,5 +140,31 @@ export const amazonService = {
             },
         });
     },
+
+    /**
+     * Get sales metrics for a period.
+     * @param {Object} params
+     * @param {string} params.startDate - ISO 8601
+     * @param {string} params.endDate - ISO 8601
+     * @param {string[]} params.marketplaceIds - array of marketplace IDs
+     * @param {string} [params.asin] - optional ASIN filter
+     * @param {string} [params.granularity] - "Day", "Week", "Month"
+     * @returns {Promise<Object>}
+     */
+    async getSalesMetrics({ startDate, endDate, marketplaceIds, asin, granularity = "Day" }) {
+        const client = get_amazon_client();
+        const query = {
+            marketplaceIds: marketplaceIds.join(','),
+            granularity,
+            startDate,
+            endDate,
+        };
+        if (asin) query.asin = asin;
+        return client.callAPI({
+            operation: 'getSalesMetrics', // name may vary; check your SDK
+            endpoint: 'sales',
+            query,
+        });
+    },
 };
 
