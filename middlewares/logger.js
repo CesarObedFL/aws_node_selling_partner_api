@@ -1,18 +1,35 @@
-/**
- * Simple request logging middleware.
- * For production, consider using pino or winston for structured logging.
- */
-export const logger = (req, res, next) => {
-    const start = Date.now();
-    const { method, originalUrl, ip } = req;
+import pino from 'pino';
+import { env } from '../config/env.config.js';
 
-    // Log when response finishes
+// Configurar logger con formato bonito en desarrollo
+const logger = pino({
+    level: env.NODE_ENV === 'production' ? 'info' : 'debug',
+    transport: env.NODE_ENV !== 'production'
+        ? {
+            target: 'pino-pretty',
+            options: {
+                colorize: true,
+                translateTime: 'SYS:standard',
+                ignore: 'pid,hostname',
+            },
+        }
+        : undefined,
+});
+
+// Middleware para loggear cada request
+export const requestLogger = (req, res, next) => {
+    const start = Date.now();
     res.on('finish', () => {
         const duration = Date.now() - start;
-        const status = res.statusCode;
-        const logLevel = status >= 500 ? 'ERROR' : status >= 400 ? 'WARN' : 'INFO';
-        console.log(`[${logLevel}] ${method} ${originalUrl} ${status} - ${duration}ms - ${ip}`);
+        logger.info({
+            method: req.method,
+            url: req.url,
+            status: res.statusCode,
+            duration: `${duration}ms`,
+            ip: req.ip,
+        });
     });
-
     next();
 };
+
+export default logger;

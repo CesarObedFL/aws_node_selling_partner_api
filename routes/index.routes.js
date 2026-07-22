@@ -7,19 +7,19 @@ import salesRoutes from './sales.routes.js';
 
 const router = Router();
 
-// Mount all route modules
+// routes
 router.use('/orders', orderRoutes);
 router.use('/inventory', inventoryRoutes);
 router.use('/products', productRoutes);
 router.use('/finances', financeRoutes);
 router.use('/sales', salesRoutes);
 
-// Optional: 404 catch-all (only if not handled elsewhere)
-router.use((req, res) => {
-    res.status(404).json({
-        status: 'error',
-        code: 'NOT_FOUND',
-        message: `Route ${req.originalUrl} not found`,
+// Health check para monitoreo
+router.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
     });
 });
 

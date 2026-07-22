@@ -1,32 +1,27 @@
-/**
- * Global error handling middleware.
- * Catches all errors thrown in controllers/services and formats them consistently.
- */
+import logger from './logger.js';
+
 export const errorHandler = (err, req, res, next) => {
-    // Log error for debugging (structured logging would be better)
-    console.error('Error:', {
+    logger.error({
         message: err.message,
         stack: err.stack,
-        url: req.originalUrl,
+        url: req.url,
         method: req.method,
-        ip: req.ip,
     });
 
-    // Determine status code
+    // Si el error ya tiene un código de status, usarlo; si no, 500
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Internal Server Error';
 
-    // Don't expose internal error details in production
+    // No exponer detalles internos en producción (excepto si es 400 por validación)
     const response = {
         status: 'error',
         code: err.code || 'INTERNAL_ERROR',
-        message: message,
+        message,
     };
 
-    // Include stack trace only in development
-    if (process.env.NODE_ENV === 'development') {
+    if (env.NODE_ENV === 'development') {
         response.stack = err.stack;
     }
 
-    return res.status(statusCode).json(response);
+    res.status(statusCode).json(response);
 };
