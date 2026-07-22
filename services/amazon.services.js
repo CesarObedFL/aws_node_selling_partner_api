@@ -87,4 +87,23 @@ export const amazonService = {
             path: { orderId },
         });
     },
+
+    /**
+     * Fetch inventory summary (FBA) with optional pagination.
+     * @param {Object} params
+     * @param {string} [params.NextToken] - Pagination token
+     * @returns {Promise<Object>}
+     */
+    async getInventory({ NextToken }) {
+        const client = get_amazon_client();
+        const query = {};
+        if (NextToken) query.NextToken = NextToken;
+
+        return client.callAPI({
+            operation: 'getInventorySummary',
+            endpoint: 'inventory',
+            query,
+        });
+    },
 };
+
