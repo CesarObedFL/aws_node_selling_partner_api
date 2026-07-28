@@ -1,16 +1,22 @@
 FROM keymetrics/pm2:latest-alpine
 
+# Instalar bash (útil para scripts de entrada, pero opcional)
 RUN apk update && apk add bash
 
-# Bundle APP files
-RUN mkdir -p /src
+# Establecer directorio de trabajo
 WORKDIR /src
+
+# Copiar solo los archivos necesarios para instalar dependencias (mejora caché)
+COPY package*.json ./
+
+# Instalar dependencias de producción (evita instalar devDependencies)
+RUN npm ci --only=production && npm cache clean --force
+
+# Copiar el resto del código fuente
 COPY . .
 
-# Install app dependencies
-ENV NPM_CONFIG_LOGLEVEL warn
-RUN npm install
-RUN npm audit fix --force
+# Exponer el puerto que usa tu aplicación (ajusta si usas otro)
+EXPOSE 3000
 
-
+# Usar pm2-runtime para ejecutar la aplicación en modo producción
 CMD [ "pm2-runtime", "start", "pm2.json" ]
