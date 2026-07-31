@@ -37,7 +37,7 @@ jobs:
             ${{ runner.os }}-node-modules-
 
       - name: Install dependencies
-        run: pnpm install --prefer-frozen-lockfile
+        run: pnpm install --prefer-frozen-lockfile --ignore-workspace
 
       - name: Run lint (optional)
         run: pnpm run lint || echo "No lint script found, skipping"
