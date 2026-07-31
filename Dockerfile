@@ -13,7 +13,7 @@ WORKDIR /src
 COPY package.json pnpm-lock.yaml ./
 
 # Instalar dependencias de producción con pnpm
-RUN pnpm install --frozen-lockfile --prod && pnpm cache clean
+RUN pnpm install --prefer-frozen-lockfile --prod && pnpm cache clean
 
 # Copiar el resto del código
 COPY . .
