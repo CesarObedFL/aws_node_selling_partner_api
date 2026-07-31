@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(requestLogger);
 
 // Rate limiting (opcional)
-// app.use(rateLimiter);
+app.use(rateLimiter);
 
 // Montar todas las rutas bajo /spapi
 app.use('/spapi', routes);
