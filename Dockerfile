@@ -1,25 +1,25 @@
 FROM keymetrics/pm2:latest-alpine
 
-# Instalar bash (útil para scripts, opcional)
+# Instalar bash (opcional, útil para scripts)
 RUN apk add --no-cache bash
 
 # Instalar pnpm globalmente
-RUN npm install -g pnpm@9
+RUN npm install -g pnpm
 
 # Establecer directorio de trabajo
 WORKDIR /src
 
 # Copiar archivos de dependencias
-COPY package*.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml ./
 
-# Instalar dependencias con pnpm (usando frozen lockfile para producción)
+# Instalar dependencias de producción con pnpm
 RUN pnpm install --frozen-lockfile --prod && pnpm cache clean
 
-# Copiar el resto del código fuente
+# Copiar el resto del código
 COPY . .
 
-# Exponer el puerto de la aplicación
+# Exponer puerto
 EXPOSE 3000
 
-# Usar pm2-runtime para ejecutar la aplicación
+# Comando de inicio con PM2
 CMD [ "pm2-runtime", "start", "pm2.json" ]
