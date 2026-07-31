@@ -1,0 +1,586 @@
+openapi: 3.0.0
+info:
+  title: Amazon SP-API MCP Server
+  description: |
+    High-performance MCP server for Amazon SP-API.
+    Enables agents to query real-time inventory health, sales metrics, financial events, and execute price updates.
+  version: 1.0.0
+  contact:
+    name: CesarObedFL
+    url: https://github.com/CesarObedFL/aws_node_selling_partner_api
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000/spapi
+    description: Local development server
+  - url: https://your-production-domain.com/spapi
+    description: Production server
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      description: Returns the service status
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+                  uptime:
+                    type: number
+                    example: 123.45
+
+  # ---------- ORDERS ----------
+  /orders:
+    get:
+      summary: Get orders by date range
+      description: Returns a list of orders within the specified date range.
+      parameters:
+        - name: date_from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: Start date (ISO 8601)
+        - name: date_to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: End date (ISO 8601)
+        - name: next_token
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination token from previous response
+        - name: marketplace_ids
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated list of marketplace IDs (e.g., "ATVPDKIKX0DER,A1AM78C64UMU9V")
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Order"
+                  pagination:
+                    type: object
+                    properties:
+                      next_token:
+                        type: string
+                        nullable: true
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /orders/{id}:
+    get:
+      summary: Get order by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Amazon order ID
+      responses:
+        "200":
+          description: Order details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    $ref: "#/components/schemas/Order"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /orders/{id}/items:
+    get:
+      summary: Get order items
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Amazon order ID
+      responses:
+        "200":
+          description: Order items
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/OrderItem"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /orders/{order_id}/buyerinfo:
+    get:
+      summary: Get buyer information
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Amazon order ID
+      responses:
+        "200":
+          description: Buyer info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    $ref: "#/components/schemas/BuyerInfo"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /orders/{order_id}/shippingaddress:
+    get:
+      summary: Get shipping address
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Amazon order ID
+      responses:
+        "200":
+          description: Shipping address
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    $ref: "#/components/schemas/ShippingAddress"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  # ---------- INVENTORY ----------
+  /inventory:
+    get:
+      summary: Get FBA inventory summary
+      description: Returns a summary of FBA inventory with pagination.
+      parameters:
+        - name: next_token
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Pagination token
+      responses:
+        "200":
+          description: Inventory summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/InventoryItem"
+                  pagination:
+                    type: object
+                    properties:
+                      next_token:
+                        type: string
+                        nullable: true
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  # ---------- PRODUCTS ----------
+  /products/ranking/{asin}:
+    get:
+      summary: Get product ranking by ASIN
+      parameters:
+        - name: asin
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Amazon Standard Identification Number
+        - name: marketplace_ids
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated list of marketplace IDs
+      responses:
+        "200":
+          description: Product ranking and details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      asin:
+                        type: string
+                      title:
+                        type: string
+                      product_type:
+                        type: string
+                      sales_rankings:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            rank:
+                              type: number
+                            product_category:
+                              type: string
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  # ---------- FINANCES ----------
+  /finances/order/{order_id}:
+    get:
+      summary: Get financial events for an order
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Amazon order ID
+      responses:
+        "200":
+          description: Financial events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FinancialEvent"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  /finances/refunds/{order_id}:
+    get:
+      summary: Get refunds for an order
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Amazon order ID
+      responses:
+        "200":
+          description: Refund list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Refund"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+  # ---------- SALES ----------
+  /sales/metrics:
+    get:
+      summary: Get sales metrics
+      description: Returns sales metrics for a date range and optional filters.
+      parameters:
+        - name: date_from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: Start date
+        - name: date_to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: End date
+        - name: marketplace_ids
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Comma-separated marketplace IDs
+        - name: asin
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filter by ASIN
+        - name: granularity
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [Day, Week, Month]
+            default: Day
+          description: Aggregation granularity
+      responses:
+        "200":
+          description: Sales metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SalesMetric"
+                  filters:
+                    type: object
+                    properties:
+                      date_from:
+                        type: string
+                        format: date-time
+                      date_to:
+                        type: string
+                        format: date-time
+                      marketplace_ids:
+                        type: array
+                        items:
+                          type: string
+                      asin:
+                        type: string
+                        nullable: true
+                      granularity:
+                        type: string
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/ServerError"
+
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        AmazonOrderId:
+          type: string
+        PurchaseDate:
+          type: string
+          format: date-time
+        OrderStatus:
+          type: string
+        FulfillmentChannel:
+          type: string
+        SalesChannel:
+          type: string
+        OrderTotal:
+          type: object
+          properties:
+            CurrencyCode:
+              type: string
+            Amount:
+              type: string
+        # ... other fields
+    OrderItem:
+      type: object
+      properties:
+        ASIN:
+          type: string
+        SellerSKU:
+          type: string
+        Title:
+          type: string
+        QuantityOrdered:
+          type: number
+        ItemPrice:
+          type: object
+          properties:
+            CurrencyCode:
+              type: string
+            Amount:
+              type: string
+    BuyerInfo:
+      type: object
+      properties:
+        BuyerEmail:
+          type: string
+        BuyerName:
+          type: string
+        BuyerPhoneNumber:
+          type: string
+    ShippingAddress:
+      type: object
+      properties:
+        Name:
+          type: string
+        AddressLine1:
+          type: string
+        City:
+          type: string
+        StateOrRegion:
+          type: string
+        PostalCode:
+          type: string
+        CountryCode:
+          type: string
+    InventoryItem:
+      type: object
+      properties:
+        sellerSku:
+          type: string
+        fnSku:
+          type: string
+        asin:
+          type: string
+        totalSupplyQuantity:
+          type: number
+        inStockSupplyQuantity:
+          type: number
+    FinancialEvent:
+      type: object
+      properties:
+        EventType:
+          type: string
+        PostedDate:
+          type: string
+          format: date-time
+        Amount:
+          type: object
+          properties:
+            CurrencyCode:
+              type: string
+            Amount:
+              type: string
+    Refund:
+      type: object
+      properties:
+        RefundId:
+          type: string
+        RefundDate:
+          type: string
+          format: date-time
+        RefundAmount:
+          type: object
+          properties:
+            CurrencyCode:
+              type: string
+            Amount:
+              type: string
+    SalesMetric:
+      type: object
+      properties:
+        interval:
+          type: string
+        unitCount:
+          type: number
+        orderCount:
+          type: number
+        totalSales:
+          type: object
+          properties:
+            amount:
+              type: string
+            currencyCode:
+              type: string
+
+  responses:
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              code:
+                type: string
+                example: INVALID_PARAMETERS
+              message:
+                type: string
+              errors:
+                type: object
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              code:
+                type: string
+                example: SP_API_INTEGRATION_ERROR
+              message:
+                type: string
