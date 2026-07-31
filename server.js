@@ -6,7 +6,7 @@ import { env } from './config/env.config.js';
 import routes from './routes/index.js';
 import { requestLogger } from './middlewares/logger.js';
 import { errorHandler } from './middlewares/errorHandler.js';
-//import { rateLimiter } from './middlewares/rateLimiter.js';
+import { rateLimiter } from './middlewares/rateLimiter.js';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 
@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(requestLogger);
 
 // Rate limiting (opcional)
-//app.use(rateLimiter);
+app.use(rateLimiter);
 
 // Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
