@@ -1,7 +1,11 @@
 {
   "name": "aws-node-mcp-spapi",
   "version": "2.0.0",
-  "description": "",
+  "mcpName": "io.github.CesarObedFL/aws-spapi-mcp",
+  "bin": {
+    "aws-spapi-mcp": "./server.js"
+  },
+  "description": "MCP server for Amazon SP-API - real-time inventory health, sales metrics, and price updates",
   "main": "server.js",
   "scripts": {
     "serve": "nodemon server.js"
