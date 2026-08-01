@@ -1,22 +1,45 @@
 {
-  "name": "aws-node-mcp-spapi",
-  "version": "2.0.0",
-  "mcpName": "io.github.CesarObedFL/aws-spapi-mcp",
+  "name": "@cesarobedfl/aws-spapi-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Amazon SP-API - real-time inventory health, sales metrics, and price updates",
+  "main": "server.js",
+  "type": "module",
   "bin": {
     "aws-spapi-mcp": "./server.js"
   },
-  "description": "MCP server for Amazon SP-API - real-time inventory health, sales metrics, and price updates",
-  "main": "server.js",
   "scripts": {
-    "serve": "nodemon server.js"
+    "start": "node server.js",
+    "serve": "nodemon server.js",
+    "test": "echo \"No tests yet\" && exit 0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "amazon",
+    "sp-api",
+    "mcp",
+    "inventory",
+    "pricing",
+    "ecommerce",
+    "seller",
+    "automation"
+  ],
+  "author": {
+    "name": "Cesar Obed FL",
+    "email": "cesarobedfl@example.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CesarObedFL/aws_node_selling_partner_api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CesarObedFL/aws_node_selling_partner_api/issues"
+  },
+  "homepage": "https://github.com/CesarObedFL/aws_node_selling_partner_api#readme",
   "dependencies": {
     "amazon-sp-api": "^1.0.6",
     "compression": "^1.8.1",
     "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
     "express": "^4.22.2",
     "express-rate-limit": "^8.6.1",
     "helmet": "^8.3.0",
@@ -27,7 +50,6 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5",
     "nodemon": "^3.1.0"
   }
 }
