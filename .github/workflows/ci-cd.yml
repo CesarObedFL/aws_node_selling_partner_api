@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  NODE_VERSION: '22'  # Cambiado a 22 para evitar el aviso de deprecación
+  NODE_VERSION: '22'
   DOCKER_REGISTRY: ghcr.io
 
 jobs:
