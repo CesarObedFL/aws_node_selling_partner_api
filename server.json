@@ -6,7 +6,10 @@
   "packages": [
     {
       "registryType": "npm",
-      "identifier": "@cesarobedfl/aws-spapi-mcp"
+      "identifier": "@cesarobedfl/aws-spapi-mcp",
+      "transport": {
+        "type": "stdio"
+      }
     }
   ],
   "configSchema": {
