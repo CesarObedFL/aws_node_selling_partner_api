@@ -114,7 +114,7 @@ This data is essential to establish a secure and authorized connection to the Am
 - Amazon SP-API is extremely strict with the format of the Dates: it expects a complete ISO 8601 format (e.g. 2026-07-01T14:21:00Z)
 
 
-### 
+### File Structure
 
 ![Amazon SP-API MCP File Structure](./assets/images/aws_node_selling_partner_api_structure.png)
 
