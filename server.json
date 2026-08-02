@@ -1,0 +1,24 @@
+{
+  "name": "io.github.CesarObedFL/aws-spapi-mcp",
+  "description": "MCP server for Amazon SP-API - real-time inventory health, sales metrics, and price updates",
+  "versions": {
+    "1.0.0": {
+      "packages": {
+        "npm": {
+          "package": "@cesarobedfl/aws-spapi-mcp"
+        }
+      },
+      "configSchema": {
+        "type": "object",
+        "properties": {
+          "AMAZON_CLIENT_ID": { "type": "string" },
+          "AMAZON_CLIENT_SECRET": { "type": "string" },
+          "AMAZON_REFRESH_TOKEN": { "type": "string" },
+          "AWS_REGION": { "type": "string", "default": "us-east-1" },
+          "DEFAULT_MARKETPLACE_ID": { "type": "string", "default": "A1AM78C64UMU9V" }
+        },
+        "required": ["AMAZON_CLIENT_ID", "AMAZON_CLIENT_SECRET", "AMAZON_REFRESH_TOKEN"]
+      }
+    }
+  }
+}
