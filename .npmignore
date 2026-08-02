@@ -5,3 +5,4 @@ node_modules/
 Dockerfile
 pm2.json
 assets/
+mcp-publisher

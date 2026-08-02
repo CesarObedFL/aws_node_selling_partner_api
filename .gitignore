@@ -1,3 +1,4 @@
 /node_modules
 .env
 mcp_project
+mcp-publisher
