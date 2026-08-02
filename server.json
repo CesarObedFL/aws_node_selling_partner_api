@@ -1,12 +1,13 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.CesarObedFL/aws-spapi-mcp",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "MCP server for Amazon SP-API - real-time inventory health, sales metrics, and price updates",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@cesarobedfl/aws-spapi-mcp",
+      "version": "1.0.3",
       "transport": {
         "type": "stdio"
       }
