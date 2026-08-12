@@ -1,6 +1,6 @@
 {
   "name": "@cesarobedfl/aws-spapi-mcp",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "MCP server for Amazon SP-API - real-time inventory health, sales metrics, and price updates",
   "mcpName": "io.github.CesarObedFL/aws-spapi-mcp",
   "main": "server.js",
