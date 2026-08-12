@@ -118,6 +118,13 @@ This data is essential to establish a secure and authorized connection to the Am
 
 ![Amazon SP-API MCP File Structure](./assets/images/aws_node_selling_partner_api_structure.png)
 
+
+## ☕ Support the Project
+
+If you find this project useful, you can buy me a coffee to keep it going!
+
+[![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/lato-orange.png)](https://buymeacoffee.com/cesarobedfl)
+
 [amazon-sp-api]: <https://developer-docs.amazon.com/sp-api/docs/what-is-the-selling-partner-api>
 [npm-amazon-sp-api]: <https://www.npmjs.com/package/amazon-sp-api#call-the-api>
 [seller-central-portal]: <https://sellercentral.amazon.com.mx/>
