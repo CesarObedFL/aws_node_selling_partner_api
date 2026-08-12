@@ -125,6 +125,16 @@ If you find this project useful, you can buy me a coffee to keep it going!
 
 [![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/lato-orange.png)](https://buymeacoffee.com/cesarobedfl)
 
+<b>Follow me! </b> <br>
+<p align="left">
+    <a href="https://github.com/CesarObedFL">
+        <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+    </a>
+    <a href="https://www.linkedin.com/in/tu-usuario/">
+        <img src="https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+    </a>
+</p>
+
 [amazon-sp-api]: <https://developer-docs.amazon.com/sp-api/docs/what-is-the-selling-partner-api>
 [npm-amazon-sp-api]: <https://www.npmjs.com/package/amazon-sp-api#call-the-api>
 [seller-central-portal]: <https://sellercentral.amazon.com.mx/>
