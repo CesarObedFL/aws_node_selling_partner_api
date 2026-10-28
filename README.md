@@ -113,6 +113,11 @@ This data is essential to establish a secure and authorized connection to the Am
 
 - Amazon SP-API is extremely strict with the format of the Dates: it expects a complete ISO 8601 format (e.g. 2026-07-01T14:21:00Z)
 
+### Find the project in the MCP Marketplaces 
+
+<p align="center">
+[![AWS Spapi MCP server](https://mcprush.com/badge/aws-spapi-mcp/card.svg)](https://mcprush.com/to/aws-spapi-mcp?ref=badge)
+</p>
 
 ### File Structure
 
