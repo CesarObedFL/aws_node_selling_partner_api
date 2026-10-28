@@ -115,9 +115,7 @@ This data is essential to establish a secure and authorized connection to the Am
 
 ### Find the project in the MCP Marketplaces 
 
-<p align="center">
 [![AWS Spapi MCP server](https://mcprush.com/badge/aws-spapi-mcp/card.svg)](https://mcprush.com/to/aws-spapi-mcp?ref=badge)
-</p>
 
 ### File Structure
 
